@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #2f2f2f;
+            background-image: url("https://files.catbox.moe/ylz3i7.png");
+            background-size: contain;
+        }
+        .container {
+            background-color: darkslategray;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 750px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            color: whitesmoke;
+        }
+        .field {
+            margin-bottom: 15px;
+            background-color: darkslategray;
+            font-style: italic;
+        }
+        .field input, .field select {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid black;
+            border-radius: 8px;
+            background-color: #424242;
+            text-decoration: whitesmoke;
+            color: whitesmoke;
+        }
+        .field label {
+            font-weight: bold;
+            color: whitesmoke;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: green;
+            color: whitesmoke;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: greenyellow;
+        }
+        .output {
+            margin-top: 20px;
+            text-align: center;
+            color: whitesmoke;
+            background-color:#2f2f2f;
+        }
+        .output a {
+            padding: 10px 20px;
+            background-color: darkslategray;
+            color: whitesmoke;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .output a:hover {
+            background-color: darkslategray;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>NovelAI Prompt Generator</h1>
+    <form id="promptForm">
+        <!-- Gender Selection -->
+        <div class="field">
+            <label for="gender">Gender:</label>
+            <select id="gender" onchange="updateGender()">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Intersex">Intersex</option>
+                <option value="Non-Binary">Non-Binary</option>
+            </select>
+        </div>
+
+        <!-- Species Input -->
+        <div class="field">
+            <label for="species">Species:</label>
+            <input type="text" id="species" placeholder="e.g., Human, Catgirl,">
+        </div>
+
+        <!-- Breast Size Selection -->
+        <div class="field">
+            <label for="breastSize">Breast Size:</label>
+            <select id="breastSize">
+                <option value="N/A">N/A</option>
+                <option value="Flat">Flat</option>
+                <option value="Tiny">Tiny</option>
+                <option value="Small">Small</option>
+                <option value="Medium">Medium</option>
+                <option value="Big">Big</option>
+                <option value="Large">Large</option>
+                <option value="Huge">Huge</option>
+            </select>
+        </div>
+
+        <!-- Hair Color Input -->
+        <div class="field">
+            <label for="hairColor">Hair Color:</label>
+            <input type="text" id="hairColor" placeholder="e.g., Cyan with dark blue highlights">
+        </div>
+
+        <!-- Hair Length Input -->
+        <div class="field">
+            <label for="hairLength">Hair Length:</label>
+            <input type="text" id="hairLength" placeholder="e.g., Short, Long, Hair Style">
+        </div>
+
+        <!-- Eye Color Input -->
+        <div class="field">
+            <label for="eyeColor">Eye Color:</label>
+            <input type="text" id="eyeColor" placeholder="e.g., Violet">
+        </div>
+        <!-- Eye Extra Information Input -->
+        <div class="field">
+            <label for="eyeExtra">Additional Eye Info:</label>
+            <input type="text" id="eyeExtra" placeholder="e.g., Big, Demonic, Small">
+        </div>
+        <!-- Clothes Detail Input -->
+        <div class="field">
+            <label for="clothingDescription">Clothing:</label>
+            <input type="text" id="clothingDescription" placeholder="e.g., White sweater, jeans...">
+        </div>
+
+        <!-- Character Age Input-->
+        <div class="field">
+            <label for="charAge">Character Age:</label>
+            <input type="text" id="charAge" onchange="updateCharacterAge()" placeholder="eg., 25 years old, 30s, 20s...">
+         </div>
+
+        <!-- Expression Input -->
+        <div class="field">
+            <label for="expression">Expression:</label>
+            <input type="text" id="expression" placeholder="e.g., Shy with subtle smile">
+        </div>
+
+        <!-- Body Type Selection -->
+        <div class="field">
+            <label for="bodyType">Body Type:</label>
+            <select id="bodyType">
+                <option value="Slim">Slim</option>
+                <option value="Slender">Slender</option>
+                <option value="Medium">Medium</option>
+                <option value="Curvy">Curvy</option>
+                <option value="Chubby">Chubby</option>
+                <option value="Overweight">Overweight</option>
+                <option value="Pregnant">Pregnant</option>
+                <option value="Highly Pregnant">Highly Pregnant</option>
+            </select>
+        </div>
+       <!-- Clothing Details -->
+       <div class="field" id="clothesField" style="display: none;">
+            <label for="clothingDescription">Clothing:</label>
+            <input type="text" id="clothingDescription" placeholder="e.g., Black hoodie, booty shorts">
+       </div>
+
+        <!-- Location Input -->
+        <div class="field">
+            <label for="location">Location:</label>
+            <input type="text" id="location" placeholder="e.g., Bedroom at night">
+        </div>
+
+        <!-- Background Input -->
+        <div class="field">
+            <label for="background">Background:</label>
+            <input type="text" id="background" placeholder="e.g., Soft bokeh effect">
+        </div>
+
+        <!-- Extra Details Input -->
+        <div class="field">
+            <label for="extraDetails">Extra Details:</label>
+            <input type="text" id="extraDetails" placeholder="e.g., Amazing quality, soft glow around eyes">
+        </div>
+
+        
+
+        <button type="button" onclick="generatePrompt()">Generate Prompt</button>
+    </form>
+
+    <div class="output" id="output" style="display: none;">
+        <h2>Your Generated Prompt:</h2>
+        <button type="button" onclick="copyToClipboard()">Copy to Clipboard</button>
+        <p id="generatedPrompt"></p>
+        <a href="#" id="downloadLink" download="generatedPrompt.txt">Download Prompt</a>
+    </div>
+</div>
+
+<script>
+        function hasBoobies() {
+        const breastSize = document.getElementById('BreastSize').value;
+
+        if (breastSize === "N/A") {
+            clothesField.style.display = 'none';
+        } else {
+            clothesField.style.display = 'block';
+        }
+    }
+        // Defining character age
+        let charAgeCheck = "false";
+    function updateCharacterAge() {
+        const charAge = document.getElementById('charAge').value;
+        if (charAge === "") {
+            console.log('No age chosen, character will not have an age in the prompt');
+            charAgeCheck ="false";
+        } else {
+        console.log("charAgeCheck runs");
+        charAgeCheck = "true"; 
+        }
+    }
+
+    function generatePrompt() {
+        let prompt = '';
+
+        const gender = document.getElementById('gender').value;
+        const species = document.getElementById('species').value;
+        const breastSize = document.getElementById('breastSize').value;
+        const hairColor = document.getElementById('hairColor').value;
+        const hairLength = document.getElementById('hairLength').value;
+        const eyeColor = document.getElementById('eyeColor').value;
+        const eyeExtra = document.getElementById('eyeExtra').value;
+        const charAge = document.getElementById('charAge').value;
+        const expression = document.getElementById('expression').value;
+        const bodyType = document.getElementById('bodyType').value;
+        const clothingDescription = document.getElementById('clothingDescription').value;
+        const location = document.getElementById('location').value;
+        const background = document.getElementById('background').value;
+        const extraDetails = document.getElementById('extraDetails').value;
+
+        // Generate Gender and Species
+        {
+        if (gender === "Female") prompt += `1girl, `;
+        if (gender === "Male") prompt += `1boy, `;
+        else if (gender) prompt += `${gender}, `;
+    }
+        if (species) prompt += `${species}, `;
+
+
+        // Generate Appearance
+        if (hairColor) prompt += `${hairColor} hair, `;
+        if (hairLength) prompt += `${hairLength} hair length, `;
+        if (eyeColor) prompt += `${eyeColor} eyes, `;
+        if (breastSize === "N/A") {
+            console.log("No breast-size chosen, N/A"); 
+        } else {
+             prompt += `${breastSize} breasts, `;
+        }
+        if (eyeExtra) prompt += `${eyeExtra} eyes, `;
+        if (charAge === "20s") {
+            prompt += `${charAge}, `;
+        } else if (charAge === "30s") {
+            prompt += `${charAge}, `;
+        } else if (charAge === "40s") {
+            prompt += `${charAge}, `;
+        } else if (charAge === "50s") {
+            prompt += `${charAge}, `;
+        } else if (charAge === "60s") {
+            prompt += `${charAge}, `;
+        } else if (charAge === "70s") {
+            prompt += `${charAge}, `;
+        } else if (charAge === "80s") {
+            prompt += `${charAge}, `;
+        } else if (charAge === "90s") {
+            prompt += `${charAge}, `
+        } else if (charAgeCheck === "true") {
+            prompt += `${charAge} years old, `
+        } else {
+            console.log("No age chosen, age will not print into prompt.")
+        }
+        if (expression) prompt += `${expression} expression, `;
+        if (bodyType) prompt += `${bodyType} body, `;
+
+        // Generate Clothing and Environment
+        if (clothingDescription) prompt += `clothes: ${clothingDescription}, `;
+        if (location) prompt += `location: ${location}, `;
+        if (background) prompt += `background: ${background}, `;
+        if (extraDetails) prompt += `${extraDetails}, `;
+
+        // Display the generated prompt
+        const output = document.getElementById('output');
+        const generatedPrompt = document.getElementById('generatedPrompt');
+        const downloadLink = document.getElementById('downloadLink');
+
+        prompt = prompt.trim().replace(/,\s*$/, ''); // Remove trailing commas and whitespace
+        generatedPrompt.textContent = prompt;
+        output.style.display = 'block';
+
+        // Prepare the download link
+        const blob = new Blob([prompt], { type: 'text/plain' });
+        downloadLink.href = URL.createObjectURL(blob);
+    }
+    function copyToClipboard() {
+    const generatedPrompt = document.getElementById('generatedPrompt').textContent;
+    navigator.clipboard.writeText(generatedPrompt).then(() => {
+        alert("Prompt copied to clipboard!");
+    }).catch(err => {
+        alert("Failed to copy prompt: " + err);
+    });
+}
+</script>
+
+
+</body>
+</html>
